@@ -1,13 +1,9 @@
 import com.merakianalytics.orianna.Orianna;
-import com.merakianalytics.orianna.types.common.GameType;
+import com.merakianalytics.orianna.types.common.GameMode;
 import com.merakianalytics.orianna.types.common.Region;
 import com.merakianalytics.orianna.types.core.match.Match;
-import com.merakianalytics.orianna.types.core.match.ParticipantStats;
-import com.merakianalytics.orianna.types.core.staticdata.Champion;
 import com.merakianalytics.orianna.types.core.summoner.Summoner;
 
-import javax.swing.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class StatTracker {
@@ -28,11 +24,8 @@ public class StatTracker {
 
         System.out.println("Finding stats for latest game...");
 
-        ParticipantStats[] playerStats = PlayerStats.lastGameStats(summoner);
-        System.out.println(playerStats[0]);
-
-
-
+        Match [] recentMatches = PlayerStats.getLastNMatchesOfSpecificType(summoner, 2, GameMode.CLASSIC);
+        
 
 
         userInput.close();
