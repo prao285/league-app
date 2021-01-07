@@ -60,5 +60,21 @@ public class PlayerStats {
         return score;
     }
 
+    static double findScoreForSingleMatch(Match match, Summoner summoner) {
+        double kdaScore = kdaScoreCalc(statsForMatch(match, summoner));
+        double visionScore = visionScoreCalc(statsForMatch(match, summoner));
+        return (kdaScore + visionScore) / (KDA_MAX_SCORE + VISION_MAX_SCORE);
+    }
+
+    static double [] compareTwoMatches(Match matchOne, Match matchTwo, Summoner summoner) {
+        double [] scores = new double[2];
+        double scoreMatchOne = findScoreForSingleMatch(matchOne, summoner);
+        double scoreMatchTwo = findScoreForSingleMatch(matchTwo, summoner);
+
+        scores[0] = scoreMatchOne;
+        scores[1] = scoreMatchTwo;
+        return scores;
+    }
+
 
 }

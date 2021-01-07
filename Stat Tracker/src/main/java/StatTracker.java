@@ -4,7 +4,7 @@ import com.merakianalytics.orianna.types.common.Region;
 import com.merakianalytics.orianna.types.core.match.Match;
 import com.merakianalytics.orianna.types.core.summoner.Summoner;
 
-import java.util.*;
+import java.util.Scanner;
 
 public class StatTracker {
     public static void main(String[] args) {
@@ -25,7 +25,12 @@ public class StatTracker {
         System.out.println("Finding stats for latest game...");
 
         Match [] recentMatches = PlayerStats.getLastNMatchesOfSpecificType(summoner, 2, GameMode.CLASSIC);
-        
+
+        double[] score = PlayerStats.compareTwoMatches(recentMatches[0], recentMatches[1], summoner);
+
+
+        System.out.println(score[0] - score[1]);
+
 
 
         userInput.close();
