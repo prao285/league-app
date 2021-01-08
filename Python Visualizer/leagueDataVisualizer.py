@@ -19,10 +19,7 @@ matches.reverse()
 scores = np.array([match.score for match in matches])
 wins = np.array([match.isWinner for match in matches])
 colormap = np.array(['r', 'g'])
-print(scores)
 plt.scatter(range(0, len(matches)), scores, s = 100, c = colormap[wins])
-
+plt.plot(scores)
 plt.show()
-
-
 cnx.close()

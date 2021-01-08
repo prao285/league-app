@@ -1,13 +1,10 @@
-import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.merakianalytics.orianna.types.common.GameMode;
-import com.merakianalytics.orianna.types.common.Season;
-import com.merakianalytics.orianna.types.common.Tier;
+import com.merakianalytics.orianna.types.common.Map;
 import com.merakianalytics.orianna.types.core.match.Match;
 import com.merakianalytics.orianna.types.core.match.ParticipantStats;
 import com.merakianalytics.orianna.types.core.staticdata.Champion;
 import com.merakianalytics.orianna.types.core.summoner.Summoner;
 
-import java.lang.reflect.Array;
 import java.util.Iterator;
 
 public class PlayerStats {
@@ -25,13 +22,14 @@ public class PlayerStats {
 
         int i = 0;
         Match match = allMatches.next();
-        while(i < n) {
-            if(match.getMap() != null && match.getMode().compareTo(type) == 0) {
+        while (i < n) {
+            if (match.getMap() != null && match.getMode().compareTo(type) == 0) {
                 matches[i] = match;
-                i ++;
+                i++;
             }
             match = allMatches.next();
         }
+
 
         return matches;
     }
