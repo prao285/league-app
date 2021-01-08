@@ -5,6 +5,7 @@ import com.merakianalytics.orianna.types.core.match.Match;
 import com.merakianalytics.orianna.types.core.summoner.Summoner;
 
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class StatTracker {
@@ -17,6 +18,8 @@ public class StatTracker {
         String name = userInput.nextLine();
 
         Summoner summoner = Orianna.summonerNamed(name).get();
+        Iterator<Match> allMatches = summoner.matchHistory().get().stream().iterator();
+
         if (!summoner.exists()) {
             System.out.println("Summoner with this name doesn't exist!");
             System.exit(1);
@@ -25,17 +28,13 @@ public class StatTracker {
 
         System.out.println("Finding stats for latest game...");
 
-        Match [] recentMatches = PlayerStats.getLastNMatchesOfSpecificType(summoner, 20, GameMode.CLASSIC);
+        Match [] recentMatches = PlayerStats.getLastNMatchesOfSpecificType(summoner, 200, GameMode.CLASSIC, allMatches);
 
 
+        JDBCConn.resetTable(args[1], args[2], args[3]);
         for (Match recentMatch : recentMatches) {
             JDBCConn.insertData(args[1], args[2], args[3], PlayerStats.findScoreForSingleMatch(recentMatch, summoner));
         }
-
-
-
-
-
 
         userInput.close();
 

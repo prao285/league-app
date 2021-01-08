@@ -20,9 +20,8 @@ public class PlayerStats {
         return(summoner.getChampionMastery(champ).getPoints());
     }
 
-    static Match [] getLastNMatchesOfSpecificType(Summoner summoner, int n, GameMode type) {
+    static Match [] getLastNMatchesOfSpecificType(Summoner summoner, int n, GameMode type, Iterator<Match>allMatches) {
         Match [] matches = new Match[n];
-        Iterator<Match> allMatches = summoner.matchHistory().get().stream().iterator();
 
         int i = 0;
         Match match = allMatches.next();

@@ -35,7 +35,7 @@ public class JDBCConn {
 
     }
 
-    private static void resetTable(String DB_URL, String USER, String PASS) {
+    static void resetTable(String DB_URL, String USER, String PASS) {
         //Open a connection
         Connection conn = null;
         Statement stmt = null;
@@ -43,10 +43,10 @@ public class JDBCConn {
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             stmt = conn.createStatement();
 
-            String sql = "alter table leaguedata AUTO_INCREMENT = 1";
+            String sql = "alter table `leaguedata`.leaguedata_scores AUTO_INCREMENT = 1";
             stmt.executeUpdate(sql);
 
-            String sql2 = "truncate table leaguedata";
+            String sql2 = "truncate table `leaguedata`.leaguedata_scores";
             stmt.executeUpdate(sql2);
 
             stmt.close();
