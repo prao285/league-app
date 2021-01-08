@@ -28,12 +28,13 @@ public class StatTracker {
 
         System.out.println("Finding stats for latest game...");
 
-        Match [] recentMatches = PlayerStats.getLastNMatchesOfSpecificType(summoner, 200, GameMode.CLASSIC, allMatches);
+        Match [] recentMatches = PlayerStats.getLastNMatchesOfSpecificType(20, GameMode.CLASSIC, allMatches);
+
 
 
         JDBCConn.resetTable(args[1], args[2], args[3]);
         for (Match recentMatch : recentMatches) {
-            JDBCConn.insertData(args[1], args[2], args[3], PlayerStats.findScoreForSingleMatch(recentMatch, summoner));
+            JDBCConn.insertData(args[1], args[2], args[3], PlayerStats.findScoreForSingleMatch(recentMatch, summoner), PlayerStats.statsForMatch(recentMatch, summoner).isWinner());
         }
 
         userInput.close();

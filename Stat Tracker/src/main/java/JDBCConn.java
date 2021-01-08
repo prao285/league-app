@@ -4,7 +4,7 @@ import java.sql.*;
 public class JDBCConn {
 
 
-    static void insertData(String DB_URL, String USER, String PASS, double score) {
+    static void insertData(String DB_URL, String USER, String PASS, double score, boolean won) {
         //Open a connection
         Connection conn = null;
         Statement stmt = null;
@@ -12,8 +12,10 @@ public class JDBCConn {
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             stmt = conn.createStatement();
 
-            String sql = "INSERT INTO `leaguedata`.`leaguedata_scores` (`scoreValue`) VALUES ('" + score + "');";
+            int val = won ? 1 : 0;
+            String sql = "INSERT INTO `leaguedata`.`leaguedata_scores` (`scoreValue`, `won`) VALUES ('" + score + "', '" + val + "');";
             stmt.executeUpdate(sql);
+
 
             stmt.close();
             conn.close();
