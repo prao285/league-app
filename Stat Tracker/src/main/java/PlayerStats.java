@@ -1,5 +1,6 @@
 import com.merakianalytics.orianna.types.common.GameMode;
 import com.merakianalytics.orianna.types.common.Map;
+import com.merakianalytics.orianna.types.common.Queue;
 import com.merakianalytics.orianna.types.core.match.Match;
 import com.merakianalytics.orianna.types.core.match.ParticipantStats;
 import com.merakianalytics.orianna.types.core.staticdata.Champion;
@@ -18,15 +19,16 @@ public class PlayerStats {
         return(summoner.getChampionMastery(champ).getPoints());
     }
 
-    static Match [] getLastNMatchesOfSpecificType(int n, GameMode type, Iterator<Match>allMatches) {
+    static Match [] getLastNMatchesOfSpecificType(int n, Queue queue, Iterator<Match>allMatches) {
         Match [] matches = new Match[n];
 
         int i = 0;
         Match match = allMatches.next();
         while (i < n) {
-            if (match.getMap() != null && match.getMode().compareTo(type) == 0) {
-                matches[i] = match;
-                i++;
+            System.out.print(i);
+            if (match.getQueue() != null && match.getQueue().getId() == queue.getId()) {
+                System.out.println("pppoopoo");
+                matches[i++] = match;
             }
             match = allMatches.next();
         }

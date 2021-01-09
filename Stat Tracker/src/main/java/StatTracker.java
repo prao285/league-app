@@ -1,14 +1,18 @@
 import com.merakianalytics.orianna.Orianna;
 import com.merakianalytics.orianna.types.common.GameMode;
+import com.merakianalytics.orianna.types.common.Queue;
 import com.merakianalytics.orianna.types.common.Region;
 import com.merakianalytics.orianna.types.core.match.Match;
 import com.merakianalytics.orianna.types.core.summoner.Summoner;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
 
 public class StatTracker {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
         Orianna.setRiotAPIKey(args[0]);
         Orianna.setDefaultRegion(Region.NORTH_AMERICA);
 
@@ -27,14 +31,19 @@ public class StatTracker {
         Iterator<Match> allMatches = summoner.matchHistory().get().stream().iterator();
 
 
+
+
         System.out.println("Finding stats for latest game...");
 
-        Match [] recentMatches = PlayerStats.getLastNMatchesOfSpecificType(100, GameMode.CLASSIC, allMatches);
+        Match [] recentMatches = PlayerStats.getLastNMatchesOfSpecificType(5, Queue.withId(400), allMatches);
 
         JDBCConn.resetTable(args[1], args[2], args[3]);
         for (Match recentMatch : recentMatches) {
+            System.out.println("pp");
             JDBCConn.insertData(args[1], args[2], args[3], PlayerStats.findScoreForSingleMatch(recentMatch, summoner), PlayerStats.statsForMatch(recentMatch, summoner).isWinner());
         }
+
+
 
         userInput.close();
     }
