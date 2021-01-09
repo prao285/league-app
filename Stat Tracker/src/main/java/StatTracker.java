@@ -23,15 +23,13 @@ public class StatTracker {
             System.out.println("Summoner with this name doesn't exist!");
             System.exit(1);
         }
+
         Iterator<Match> allMatches = summoner.matchHistory().get().stream().iterator();
-
-
 
 
         System.out.println("Finding stats for latest game...");
 
-        Match [] recentMatches = PlayerStats.getLastNMatchesOfSpecificType(200, GameMode.CLASSIC, allMatches);
-
+        Match [] recentMatches = PlayerStats.getLastNMatchesOfSpecificType(100, GameMode.CLASSIC, allMatches);
 
         JDBCConn.resetTable(args[1], args[2], args[3]);
         for (Match recentMatch : recentMatches) {
@@ -39,10 +37,5 @@ public class StatTracker {
         }
 
         userInput.close();
-
-
-
     }
-
-
 }

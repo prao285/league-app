@@ -13,6 +13,7 @@ public class JDBCConn {
             stmt = conn.createStatement();
 
             int val = won ? 1 : 0;
+
             String sql = "INSERT INTO `leaguedata`.`leaguedata_scores` (`scoreValue`, `won`) VALUES ('" + score + "', '" + val + "');";
             stmt.executeUpdate(sql);
 
@@ -20,6 +21,7 @@ public class JDBCConn {
             stmt.close();
             conn.close();
         } catch (Exception sqlException) {
+            System.out.println(score);
             sqlException.printStackTrace();
         } finally {
             try{

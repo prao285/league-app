@@ -11,6 +11,7 @@ public class PlayerStats {
 
     static final double KDA_MAX_SCORE = 10 - (10.0 / (1.0 + Math.pow(Math.E, 2.495 / 1.8)));
     static final double VISION_MAX_SCORE = 5 - (5.0 / (1.0 + Math.pow(Math.E, 25.0 / 10.0)));
+    static final double DAMAGE_MAX_SCORE = 10 - (10.0 / (1.0 + Math.pow(Math.E, 20.0 / 5.0)));
 
     static int championMastery(Summoner summoner, String champion, String apiKey) {
         Champion champ = Champion.named(champion).get();
@@ -29,8 +30,6 @@ public class PlayerStats {
             }
             match = allMatches.next();
         }
-
-
         return matches;
     }
 
@@ -42,6 +41,10 @@ public class PlayerStats {
         double kills = stats.getKills();
         double assists = stats.getAssists();
         double deaths = stats.getDeaths();
+
+        if(deaths == 0) {
+            deaths = 1;
+        }
 
         double kda = (kills + (assists / 2)) / deaths;
 
@@ -57,10 +60,23 @@ public class PlayerStats {
         return score;
     }
 
+    static double damageScoreCalc(ParticipantStats stats) {
+        double damageToChampions = stats.getDamageDealtToChampions();
+        // need to implement objectives
+        double damageToObjectives = stats.getDamageToObjectives();
+        double totalDamage = damageToChampions / 1000;
+
+        double score = 10.0 / (1.0 + Math.pow(Math.E, ((-1.0 * totalDamage) + 20) / 5));
+
+        score = score - (10.0 / (1.0 + Math.pow(Math.E, 20.0 / 5.0)));
+        return score;
+    }
+
     static double findScoreForSingleMatch(Match match, Summoner summoner) {
         double kdaScore = kdaScoreCalc(statsForMatch(match, summoner));
         double visionScore = visionScoreCalc(statsForMatch(match, summoner));
-        return (kdaScore + visionScore) / (KDA_MAX_SCORE + VISION_MAX_SCORE);
+        double damageScore = damageScoreCalc(statsForMatch(match, summoner));
+        return (kdaScore + visionScore + damageScore) / (KDA_MAX_SCORE + VISION_MAX_SCORE + DAMAGE_MAX_SCORE);
     }
 
     static double [] compareTwoMatches(Match matchOne, Match matchTwo, Summoner summoner) {
